@@ -2,8 +2,10 @@
 using namespace std;
 int main()
 {
-    int i, arr[10], num, beg, end, mid;
-    cout<<"Enter 10 Elements ";
+    int i, arr[10], num, beg, end, mid, n;
+    cout<<"Enter no. of Elements ";
+    cin>>n;
+    cout<<"\nEnter Elements ";
     for(i=0; i<10; i++)
         cin>>arr[i];
     cout<<"\nEnter Element to be Search: ";
