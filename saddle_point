@@ -1,0 +1,62 @@
+#include<iostream>
+
+int saddle_point(int** Mtrx,int row,int col)
+{
+ 
+    for(int i = 0 ; i < row ; i++)
+    {
+        int s_col = 0 ;
+ 
+        int s_element = Mtrx[i][0] ; 
+
+        for(int j = 0 ; j < col ; j++)
+        {
+            if (Mtrx[i][j] < s_element)
+            {
+                s_element = Mtrx[i][j];
+                s_col = j;
+            } 
+        }
+
+        int k = 0;
+        while (k < row && Mtrx[k][s_col] <= s_element)
+        {
+            k = k + 1 ;
+        }
+        
+        if (k == row - 1)
+        {
+            return Mtrx[k][s_col] ; 
+        }
+    }
+    return -1;
+}
+
+int main()
+{
+    int r,c;
+    std::cout << "Enter the rows and colums : ";
+    std::cin >> r >> c;
+  
+    int** matrx = new int*[r];
+    std::cout << "Enter the matrix : \n"; 
+    for(int i = 0 ; i < r ; i++)
+    {
+      
+        matrx[i] = new int[c];
+        for(int k = 0 ; k < c ; k++)
+        {
+            std::cin >> matrx[i][k] ;
+        }
+    }
+
+    int s_point = saddle_point(matrx,r,c) ;
+    if (s_point != -1)
+    {
+        std::cout << "Saddle point at : " << s_point ;
+    }
+    else{
+        std::cout << "No Saddle point  \n" ;
+    }
+    return 0;
+}
