@@ -1,0 +1,113 @@
+#include<iostream>
+using namespace std;
+
+
+class poly
+{
+    int** P, rows; 
+
+    public:
+        poly(){}
+        poly(int row)
+        {
+            rows = row ;
+            P = new int* [rows];
+            for (int i = 0 ; i <= rows ; i++)
+            {
+                P[i] = new int[2];
+            }
+        }
+        
+        void get_input();
+        friend poly operator+(poly,poly);
+        void show();
+};
+
+void poly::get_input()
+{
+    cout << "Enter " << rows << " entries : \n";
+    for(int r = 0 ; r <= rows ; r++)
+    {
+        for(int c = 0 ; c < 2 ; c++)
+        {
+            cin >> P[r][c];
+        }
+    }
+}
+
+poly operator+(poly P1,poly P2)
+{
+    poly P3;
+    P3.P = new int*[P1.rows + P2.rows];
+    for(int j = 0 ; j < P1.rows + P2.rows ; j++ ){
+        P3.P[j] = new int[2];
+    }
+    int ptr1 = 0 ;int ptr2 = 0 ; int ptr3 = 0; 
+    while (ptr1 <= P1.rows and ptr2 <= P2.rows){
+        if (P1.P[ptr1][0] > P2.P[ptr2][0]){
+            P3.P[ptr3][0] = P2.P[ptr2][0];
+            P3.P[ptr3][1] = P2.P[ptr2][1];
+            ptr2++;ptr3++;
+        }      
+        else if (P1.P[ptr1][0] < P2.P[ptr2][0]){
+            P3.P[ptr3][0] = P1.P[ptr1][0];
+            P3.P[ptr3][1] = P1.P[ptr1][1];
+            ptr1++;ptr3++;
+        }   
+        else{
+            P3.P[ptr3][0] = P2.P[ptr2][0];
+            P3.P[ptr3][1] = P1.P[ptr1][1] + P2.P[ptr2][1];
+            ptr1++;ptr2++;ptr3++;
+        } 
+    }
+
+    if (ptr1 < P1.rows){
+        while (ptr1 <= P1.rows){
+            P3.P[ptr3][0] = P1.P[ptr1][0];
+            P3.P[ptr3][1] = P1.P[ptr1][1];
+            ptr1++;ptr3++;
+        }
+    }
+    else{
+        while (ptr2 <= P2.rows){
+            P3.P[ptr3][0] = P2.P[ptr2][0];
+            P3.P[ptr3][1] = P2.P[ptr2][1];
+            ptr2++;ptr3++;
+        }
+    }
+    P3.rows = ptr3;
+    return P3;
+}
+
+void poly::show()
+{
+    int i; 
+    for(i = 0 ; i < rows ; i++){
+        cout << P[i][1] << "X^" << P[i][0] << " + ";
+    }
+    cout << P[i][1] << "X^" << P[i][0] << "\n";
+}
+
+int main()
+{
+    int T1;
+    cout << "Enter the terms of polynomial 1 : ";
+    cin >> T1;
+    cout << "Enter power and coefficient of polynomial 1 : \n";
+    poly P1(T1);
+    P1.get_input();
+    int T2;
+    cout << "Enter the terms of polynomial 2 : ";
+    cin >> T2;
+    cout << "Enter power and coefficient of polynomial 2 : \n";
+    poly P2(T2);
+    P2.get_input();
+    poly P3;
+    P3 = P1 + P2 ;
+    cout << "P1 : ";
+    P1.show();
+    cout << "P2 : ";
+    P2.show();
+    cout << "P1 + P2 : " ;
+    P3.show();
+}
